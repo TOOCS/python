@@ -1,6 +1,6 @@
 galaxy_info:
   author: Florian Kempenich
-  description: Install `python` and `python3`, along with `virtualenv` and `virtualenvwrapper` for `python3`.
+  description: Install Python and Python3, along with virtualenv and virtualenvwrapper for Python3.
 
   license: MIT
 

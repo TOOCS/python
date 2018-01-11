@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/FlorianKempenich/ansible-role-nvm-node-npm.svg?branch=master)](https://travis-ci.org/FlorianKempenich/ansible-role-nvm-node-npm) [![Ansible Role](https://img.shields.io/ansible/role/23202.svg)](https://galaxy.ansible.com/FlorianKempenich/nvm-node-npm)
+[![Build Status](https://travis-ci.org/FlorianKempenich/ansible-role-python-virtualenv.svg?branch=master)](https://travis-ci.org/FlorianKempenich/ansible-role-python-virtualenv) [![Ansible Role](https://img.shields.io/ansible/role/23205.svg)](https://galaxy.ansible.com/FlorianKempenich/python-virtualenv)
 
 # Ansible role: `python-virtualenv`
 Install `python` and `python3`, along with `virtualenv` and `virtualenvwrapper` for `python3`.
