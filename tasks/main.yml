@@ -1,2 +1,60 @@
----
-# tasks file for python-virtualenv
+- name: "Install Python & pip - Versions 2 & 3 - UBUNTU"
+  apt:
+    name: "{{ item }}"
+    state: latest
+    update_cache: yes
+  with_items:
+    - python-dev
+    - python-pip
+    - python3-dev
+    - python3-pip
+  become: yes
+  when: ansible_os_family == "Debian"
+
+- name: "Install Python & pip - Versions 2 & 3 - OSX"
+  block:
+    - name: "Install Python - Versions 2 & 3 - OSX"
+      homebrew:
+        name: "{{ item }}"
+        state: latest
+        update_homebrew: yes
+      with_items:
+        - python
+        - python3
+      become: no
+    - name: "Install pip - OSX"
+      easy_install:
+        name: pip
+        state: latest
+      become: yes
+  when: ansible_os_family == "Darwin"
+
+- name: "Upgrade `pip` (& install pip3)"
+  pip:
+    name: pip
+    executable: "{{ item }}"
+    state: latest
+  with_items:
+    - pip
+    - pip3
+  become: yes
+
+- name: "UN-Install virtualenv & virtualenvwrapper for Python 2"
+  pip:
+    name: "{{ item }}"
+    executable: pip
+    state: absent
+  with_items:
+    - virtualenv
+    - virtualenvwrapper
+  become: yes
+
+- name: "Install virtualenv & virtualenvwrapper for Python 3"
+  pip:
+    name: "{{ item }}"
+    executable: pip3
+    state: latest
+  with_items:
+    - virtualenv
+    - virtualenvwrapper
+  become: yes
