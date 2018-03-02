@@ -22,11 +22,6 @@
         - python
         - python3
       become: no
-    - name: "Install pip - OSX"
-      easy_install:
-        name: pip
-        state: latest
-      become: yes
   when: ansible_os_family == "Darwin"
 
 - name: "Upgrade `pip` (& install pip3)"
