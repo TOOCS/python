@@ -27,6 +27,8 @@
   when: ansible_os_family == "Darwin"
 
 - name: "Upgrade `pip` (& install pip3)"
+  # To update `pip3` the correct command is `pip3 install -U pip`
+  # NOT: `pip install -U pip3` --> `pip3` doesn't exist
   pip:
     name: pip
     executable: "{{ item }}"
