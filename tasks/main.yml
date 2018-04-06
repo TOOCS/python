@@ -28,8 +28,8 @@
 
 - name: "Upgrade `pip` (& install pip3)"
   pip:
-    name: "{{ item }}"
-    executable: pip
+    name: pip
+    executable: "{{ item }}"
     state: latest
   with_items:
     - pip
