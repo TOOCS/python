@@ -19,8 +19,10 @@
         state: latest
         update_homebrew: yes
       with_items:
+        - python@2
         - python
-        - python3
+      # https://brew.sh/2018/01/19/homebrew-1.5.0/
+      # https://news.ycombinator.com/item?id=16186770
       become: no
   when: ansible_os_family == "Darwin"
 
