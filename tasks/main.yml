@@ -37,6 +37,7 @@
   with_items:
     - pip
     - pip3
+  become: no
 
 - name: "UN-Install virtualenv & virtualenvwrapper for Python 2"
   pip:
@@ -47,6 +48,7 @@
   with_items:
     - virtualenv
     - virtualenvwrapper
+  become: no
 
 - name: "Install virtualenv & virtualenvwrapper for Python 3"
   pip:
@@ -57,3 +59,4 @@
   with_items:
     - virtualenv
     - virtualenvwrapper
+  become: no
