@@ -1,19 +1,6 @@
-- name: "Install Python & pip - Versions 2 & 3 - UBUNTU"
-  apt:
-    name: "{{ item }}"
-    state: latest
-    update_cache: yes
-  with_items:
-    - python-dev
-    - python-pip
-    - python3-dev
-    - python3-pip
-  become: yes
-  when: ansible_os_family == "Debian"
-
-- name: "Install Python & pip - Versions 2 & 3 - OSX"
+- name: "OSX - Install Python & pip - Versions 2 & 3"
   block:
-    - name: "Install Python - Versions 2 & 3 - OSX"
+    - name: "OSX - Install Python - Versions 2 & 3"
       homebrew:
         name: "{{ item }}"
         state: latest
@@ -25,6 +12,40 @@
       # https://news.ycombinator.com/item?id=16186770
       become: no
   when: ansible_os_family == "Darwin"
+
+- name: "UBUNTU - Install Python & pip - Versions 2 & 3"
+  block:
+    - name: "UBUNTU - Install Python - Versions 2 & 3"
+      apt:
+        name: "{{ item }}"
+        state: latest
+        update_cache: yes
+      with_items:
+        - python-dev
+        - python3-dev
+      become: yes
+    - name: "UBUNTU - Check if `pip` installed"
+      shell: "command -v pip >/dev/null 2>&1"
+      register: pip_exist
+    - name: "UBUNTU - Check if `pip3` installed"
+      shell: "command -v pip3 >/dev/null 2>&1"
+      register: pip3_exist
+    - name: "UBUNTU - Install system version of `pip` if no `pip` installed"
+      apt:
+        name: python-pip
+        state: latest
+        update_cache: yes
+      become: yes
+      when: pip_exist.rc != 0
+    - name: "UBUNTU - Install system version of `pip3` if no `pip3` installed"
+      apt:
+        name: python3-pip
+        state: latest
+        update_cache: yes
+      become: yes
+      when: pip3_exist.rc != 0
+  when: ansible_os_family == "Debian"
+
 
 - name: "Install `pip` & `pip3` (pypa versions)"
   # To update `pip3` the correct command is `pip3 install -U --user pip`
@@ -39,7 +60,7 @@
     - pip3
   become: no
 
-- name: "Remove system `pip` (keep only pypa version) - UBUNTU"
+- name: "UBUNTU - Remove system `pip` & `pip3` (keep only pypa version)"
   apt:
     name: "{{ item }}"
     state: absent
