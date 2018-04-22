@@ -33,27 +33,27 @@
     name: pip
     executable: "{{ item }}"
     state: latest
+    extra_args: --user
   with_items:
     - pip
     - pip3
-  become: yes
 
 - name: "UN-Install virtualenv & virtualenvwrapper for Python 2"
   pip:
     name: "{{ item }}"
     executable: pip
     state: absent
+    extra_args: --user
   with_items:
     - virtualenv
     - virtualenvwrapper
-  become: yes
 
 - name: "Install virtualenv & virtualenvwrapper for Python 3"
   pip:
     name: "{{ item }}"
     executable: pip3
     state: latest
+    extra_args: --user
   with_items:
     - virtualenv
     - virtualenvwrapper
-  become: yes
