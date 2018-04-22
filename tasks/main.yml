@@ -40,15 +40,25 @@
   become: no
 
 - name: "UN-Install virtualenv & virtualenvwrapper for Python 2"
-  pip:
-    name: "{{ item }}"
-    executable: pip
-    state: absent
-    extra_args: --user
-  with_items:
-    - virtualenv
-    - virtualenvwrapper
-  become: no
+  block:
+    - name: "UN-Install virtualenv & virtualenvwrapper for Python 2 - User version"
+      pip:
+        name: "{{ item }}"
+        executable: pip
+        state: absent
+      with_items:
+        - virtualenv
+        - virtualenvwrapper
+      become: no
+    - name: "UN-Install virtualenv & virtualenvwrapper for Python 2 - System/Global version"
+      pip:
+        name: "{{ item }}"
+        executable: pip
+        state: absent
+      with_items:
+        - virtualenv
+        - virtualenvwrapper
+      become: yes
 
 - name: "Install virtualenv & virtualenvwrapper for Python 3"
   pip:
