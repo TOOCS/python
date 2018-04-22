@@ -50,25 +50,14 @@
   when: ansible_os_family == "Debian"
 
 - name: "UN-Install virtualenv & virtualenvwrapper for Python 2"
-  block:
-    - name: "UN-Install virtualenv & virtualenvwrapper for Python 2 - User version"
-      pip:
-        name: "{{ item }}"
-        executable: pip
-        state: absent
-      with_items:
-        - virtualenv
-        - virtualenvwrapper
-      become: no
-    - name: "UN-Install virtualenv & virtualenvwrapper for Python 2 - System/Global version"
-      pip:
-        name: "{{ item }}"
-        executable: pip
-        state: absent
-      with_items:
-        - virtualenv
-        - virtualenvwrapper
-      become: yes
+  pip:
+    name: "{{ item }}"
+    executable: pip
+    state: absent
+  with_items:
+    - virtualenv
+    - virtualenvwrapper
+  become: no
 
 - name: "Install virtualenv & virtualenvwrapper for Python 3"
   pip:
