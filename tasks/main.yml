@@ -26,9 +26,11 @@
       become: yes
     - name: "UBUNTU - Check if `pip` installed"
       shell: "command -v pip >/dev/null 2>&1"
+      ignore_errors: yes
       register: pip_exist
     - name: "UBUNTU - Check if `pip3` installed"
       shell: "command -v pip3 >/dev/null 2>&1"
+      ignore_errors: yes
       register: pip3_exist
     - name: "UBUNTU - Install system version of `pip` if no `pip` installed"
       apt:
