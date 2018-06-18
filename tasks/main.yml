@@ -1,7 +1,10 @@
-- name: "Set PATH that includes bin for 'pip' and 'pip3'"
+- name: "Set Python 3 version as fact"
   set_fact:
     PYTHON3_VERSION: "3.6"
-    PATH_WITH_PIP_BIN: "{{ ansible_env.HOME }}/.local/bin:{{ ansible_env.HOME }}/Library/Python/{{ ansible_facts.PYTHON3_VERSION }}/bin:{{ ansible_env.PATH }}"
+
+- name: "Set PATH that includes bin for 'pip' and 'pip3' as fact"
+  set_fact:
+    PATH_WITH_PIP_BIN: "{{ ansible_env.HOME }}/.local/bin:{{ ansible_env.HOME }}/Library/Python/{{ PYTHON3_VERSION }}/bin:{{ ansible_env.PATH }}"
 
 - name: "OSX - Install Python & pip - 2 & 3"
   block:
@@ -49,7 +52,7 @@
       when: pip3_exist.rc != 0
   when: ansible_os_family == "Debian"
   environment:
-    PATH: "{{ ansible_facts.PATH_WITH_PIP_BIN }}"
+    PATH: "{{ PATH_WITH_PIP_BIN }}"
 
 
 - name: "Install `pip` & `pip3` (pypa versions)"
@@ -65,7 +68,7 @@
     - pip3
   become: no
   environment:
-    PATH: "{{ ansible_facts.PATH_WITH_PIP_BIN }}"
+    PATH: "{{ PATH_WITH_PIP_BIN }}"
 
 - name: "UBUNTU - Remove system `pip` & `pip3` (keep only pypa version)"
   apt:
@@ -108,7 +111,7 @@
 
   become: no
   environment:
-    PATH: "{{ ansible_facts.PATH_WITH_PIP_BIN }}"
+    PATH: "{{ PATH_WITH_PIP_BIN }}"
 
 - name: "Display Warning Message!"
   debug:
