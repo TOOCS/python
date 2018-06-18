@@ -43,6 +43,8 @@
       become: yes
       when: pip3_exist.rc != 0
   when: ansible_os_family == "Debian"
+  environment:
+    PATH: "{{ ansible_env.HOME }}/.local/bin:{{ ansible_env.PATH }}"
 
 
 - name: "Install `pip` & `pip3` (pypa versions)"
