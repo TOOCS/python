@@ -1,6 +1,6 @@
 galaxy_info:
   author: Florian Kempenich
-  description: Install Python and Python3, along with virtualenv and virtualenvwrapper for Python3.
+  description: Install Python and Python3, along with PipEnv to manage virtualenvs
 
   license: MIT
 
@@ -18,7 +18,7 @@ galaxy_info:
     - python
     - python3
     - python2
+    - pipenv
     - virtualenv
-    - virtualenvwrapper
 
 dependencies: []

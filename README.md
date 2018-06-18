@@ -1,31 +1,23 @@
 [![Build Status](https://travis-ci.org/FlorianKempenich/ansible-role-python-virtualenv.svg?branch=master)](https://travis-ci.org/FlorianKempenich/ansible-role-python-virtualenv) [![Ansible Role](https://img.shields.io/ansible/role/23205.svg)](https://galaxy.ansible.com/FlorianKempenich/python-virtualenv)
 
 # Ansible role: `python-virtualenv`
-Install `python` and `python3`, along with `virtualenv` and `virtualenvwrapper` for `python3`.
+Installs (if necessary) `python` and `python3`, along with `pipenv` to manage the virtualenvs.
 
-> **Warning:**  
-> To avoid conflicts with virtual environement, this role will UN-INSTALL any existing installation of `virtualenv` and `virtualenvwrapper` for **Python 2**.
-> And only install a version for **Python 3**
+> **Note on default python version:**  
+> By default `pipenv` will use the `python` version that `virtualenv` defaults to. This might be inconsistent accross OS.
+> 
+> By default `pipenv` will use the `python` version that `virtualenv` defaults to. This might be inconsistent accross OS.
+>
+> To explicitely state the default `python` version to use, set the env variable `PIPENV_DEFAULT_PYTHON_VERSION` in your `~/.bashrc` / `~/.zshrc`.  
+> (eg. `export PIPENV_DEFAULT_PYTHON_VERSION=3.6`)
+> 
+> You can also use one of the following to create a virtualenv with a specific version of `python`:
+> * **`pipenv --two`:** Creates a virtual env with the default python 2 version
+> * **`pipenv --three`:** Creates a virtual env with the default python 3 version
+> * **`pipenv --python X.Y`:**  Creates a virtual env with the specific python version X.Y
 
 ## Requirements
 This role is only working on Ubuntu/Debian & OSX.
-
-For `virtualenvwrapper` to work, do not forget to add these lines to your `.bashrc`/`.zshrc`:
-```
-mac_os_identifier=Darwin
-if [ "$(uname)" '==' $mac_os_identifier ]; then
-    export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python3
-else
-    export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
-fi
-
-export WORKON_HOME=$HOME/.virtualenvs
-export PROJECT_HOME=$HOME/Dev/Python
-source /usr/local/bin/virtualenvwrapper.sh
-```
-
-See the official documentation of `virtualenvwrapper` for more info: [Shell statup file - official documentation](https://virtualenvwrapper.readthedocs.io/en/latest/install.html#shell-startup-file)
-
 
 ## Role Variables
 This playbook will install the latest versions and is not customizable.
@@ -41,4 +33,5 @@ This playbook will install the latest versions and is not customizable.
 MIT
 
 ## Author Information
-Find out more about my work: [Florian Kempenich](https://floriankempenich.com)
+Follow me on Twitter: [@ThisIsFlorianK](https://twitter.com/ThisIsFlorianK)  
+Find out more about my work: [Florian Kempenich - Personal Website](https://floriankempenich.com)

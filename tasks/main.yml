@@ -1,6 +1,6 @@
-- name: "OSX - Install Python & pip - Versions 2 & 3"
+- name: "OSX - Install Python & pip - 2 & 3"
   block:
-    - name: "OSX - Install Python - Versions 2 & 3"
+    - name: "OSX - Install Python - 2 & 3"
       homebrew:
         name: "{{ item }}"
         state: latest
@@ -8,22 +8,18 @@
       with_items:
         - python@2
         - python
-      # https://brew.sh/2018/01/19/homebrew-1.5.0/
-      # https://news.ycombinator.com/item?id=16186770
+          #
+          # 'python':  installs python3 now
+          # 'python@2' installs python2
+          #
+          # https://brew.sh/2018/01/19/homebrew-1.5.0/
+          # https://news.ycombinator.com/item?id=16186770
+          #
       become: no
   when: ansible_os_family == "Darwin"
 
-- name: "UBUNTU - Install Python & pip - Versions 2 & 3"
+- name: "UBUNTU - Install 'pip' system version - 2 & 3 - only if pypa version absent"
   block:
-    - name: "UBUNTU - Install Python - Versions 2 & 3"
-      apt:
-        name: "{{ item }}"
-        state: latest
-        update_cache: yes
-      with_items:
-        - python-dev
-        - python3-dev
-      become: yes
     - name: "UBUNTU - Check if `pip` installed"
       shell: "command -v pip >/dev/null 2>&1"
       ignore_errors: yes
@@ -72,23 +68,67 @@
   become: yes
   when: ansible_os_family == "Debian"
 
-- name: "UN-Install virtualenv & virtualenvwrapper for Python 2"
-  pip:
-    name: "{{ item }}"
-    executable: pip
-    state: absent
-  with_items:
-    - virtualenv
-    - virtualenvwrapper
-  become: no
+- name: "Install PipEnv"
+  block:
+    - name: "Clean up previous virtualenv setup for Python 2"
+      pip:
+        name: "{{ item }}"
+        executable: pip
+        state: absent
+      with_items:
+        - virtualenv
+        - virtualenv-clone
+        - virtualenvwrapper
 
-- name: "Install virtualenv & virtualenvwrapper for Python 3"
-  pip:
-    name: "{{ item }}"
-    executable: pip3
-    state: latest
-    extra_args: --user
-  with_items:
-    - virtualenv
-    - virtualenvwrapper
+    - name: "Clean up previous virtualenv setup for Python 3"
+      pip:
+        name: "{{ item }}"
+        executable: pip3
+        state: absent
+      with_items:
+        - virtualenv
+        - virtualenv-clone
+        - virtualenvwrapper
+
+    - name: "Install 'pipenv' with 'pip3'"
+      pip:
+        name: pipenv
+        executable: pip3
+        state: latest
+        extra_args: --user
+
   become: no
+  environment:
+    PATH: "{{ ansible_env.HOME }}/.local/bin:{{ ansible_env.HOME }}/Library/Python/3.6/bin:{{ ansible_env.PATH }}"
+
+- name: "Display Warning Message!"
+  debug:
+    msg:
+      - "/!\\ WARNING"
+      - "/!\\"
+      - "/!\\"
+      - "/!\\"
+      - "/!\\ FOR UBUNTU USERS:"
+      - "/!\\ `pip`, `pip3` and `pipenv` are now be installed in `~/.local/bin`"
+      - "/!\\ --> Make sure `~/.local/bin` is in your `PATH`"
+      - "/!\\"
+      - "/!\\ Also `pip`, `pip3` and `pipenv` are installed FOR THE CURRENT USER ONLY !!"
+      - "/!\\"
+      - "/!\\ To install `pip`, `pip3` and `pipenv` for another user, simply run this role"
+      - "/!\\ with another user."
+      - "/!\\"
+      - "/!\\"
+      - "/!\\"
+      - "/!\\ FOR MAC OSX USERS:"
+      - "/!\\ `pipenv` is now installed in:"
+      - "/!\\     `~/Library/Python/VERSION/bin`"
+      - "/!\\     -> VERSION being the python 3 version"
+      - "/!\\        VERSION=3.6 at the time of writing"
+      - "/!\\"
+      - "/!\\ --> Make sure ~/Library/Python/VERSION/bin` is in your `PATH`"
+      - "/!\\"
+      - "/!\\ Also `pipenv` is installed FOR THE CURRENT USER ONLY !!"
+      - "/!\\"
+      - "/!\\ To install `pipenv` for another user:"
+      - "/!\\     pip3 install --user pipenv"
+      - "/!\\     -> Run w/ other user account"
