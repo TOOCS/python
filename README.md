@@ -6,8 +6,6 @@ Installs (if necessary) `python` and `python3`, along with `pipenv` to manage th
 > **Note on default python version:**  
 > By default `pipenv` will use the `python` version that `virtualenv` defaults to. This might be inconsistent accross OS.
 > 
-> By default `pipenv` will use the `python` version that `virtualenv` defaults to. This might be inconsistent accross OS.
->
 > To explicitely state the default `python` version to use, set the env variable `PIPENV_DEFAULT_PYTHON_VERSION` in your `~/.bashrc` / `~/.zshrc`.  
 > (eg. `export PIPENV_DEFAULT_PYTHON_VERSION=3.6`)
 > 
