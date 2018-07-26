@@ -1,6 +1,6 @@
 - name: "Set Python 3 version as fact"
   set_fact:
-    PYTHON3_VERSION: "3.6"
+    PYTHON3_VERSION: "3.7"
 
 - name: "Set PATH that includes bin for 'pip' and 'pip3' as fact"
   set_fact:
@@ -135,7 +135,7 @@
       - "/!\\ `pipenv` is now installed in:"
       - "/!\\     `~/Library/Python/VERSION/bin`"
       - "/!\\     -> VERSION being the python 3 version"
-      - "/!\\        VERSION=3.6 at the time of writing"
+      - "/!\\        VERSION={{ PYTHON3_VERSION }} at the time of writing"
       - "/!\\"
       - "/!\\ --> Make sure ~/Library/Python/VERSION/bin` is in your `PATH`"
       - "/!\\"
