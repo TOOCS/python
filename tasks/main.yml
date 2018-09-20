@@ -4,7 +4,7 @@
 
 - name: "Set PATH that includes bin for 'pip' and 'pip3' as fact"
   set_fact:
-    PATH_WITH_PIP_BIN: "{{ ansible_env.HOME }}/.local/bin:{{ ansible_env.HOME }}/Library/Python/{{ PYTHON3_VERSION }}/bin:{{ ansible_env.PATH }}"
+    PATH_WITH_PIP_BIN: "{{ ansible_env.HOME }}/.local/bin:{{ ansible_env.HOME }}/Library/Python/{{ PYTHON3_VERSION }}/bin:/usr/local/bin:{{ ansible_env.PATH }}"
 
 - name: "OSX - Install Python & pip - 2 & 3"
   block:
