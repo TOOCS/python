@@ -19,6 +19,7 @@ galaxy_info:
     - python3
     - python2
     - pipenv
+    - pyenv
     - virtualenv
 
 dependencies: []
