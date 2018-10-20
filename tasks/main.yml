@@ -49,6 +49,7 @@
       git:
         repo: "https://github.com/pyenv/pyenv.git"
         dest: "{{ pyenv_root }}"
+        force: yes
 
 
 - name: "Install all `python` versions"
