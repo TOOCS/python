@@ -1,0 +1,146 @@
+- name: "Set Python 3 version as fact"
+  set_fact:
+    PYTHON3_VERSION: "3.7"
+
+- name: "Set PATH that includes bin for 'pip' and 'pip3' as fact"
+  set_fact:
+    PATH_WITH_PIP_BIN: "{{ ansible_env.HOME }}/.local/bin:{{ ansible_env.HOME }}/Library/Python/{{ PYTHON3_VERSION }}/bin:/usr/local/bin:{{ ansible_env.PATH }}"
+
+- name: "OSX - Install Python & pip - 2 & 3"
+  block:
+    - name: "OSX - Install Python - 2 & 3"
+      homebrew:
+        name: "{{ item }}"
+        state: latest
+        update_homebrew: yes
+      with_items:
+        - python@2
+        - python
+          #
+          # 'python':  installs python3 now
+          # 'python@2' installs python2
+          #
+          # https://brew.sh/2018/01/19/homebrew-1.5.0/
+          # https://news.ycombinator.com/item?id=16186770
+          #
+      become: no
+  when: ansible_os_family == "Darwin"
+
+- name: "UBUNTU - Install 'pip' system version - 2 & 3 - only if pypa version absent"
+  block:
+    - name: "UBUNTU - Check if `pip` installed"
+      shell: "command -v pip >/dev/null 2>&1"
+      ignore_errors: yes
+      register: pip_exist
+    - name: "UBUNTU - Check if `pip3` installed"
+      shell: "command -v pip3 >/dev/null 2>&1"
+      ignore_errors: yes
+      register: pip3_exist
+    - name: "UBUNTU - Install system version of `pip` if no `pip` installed"
+      apt:
+        name: python-pip
+        state: latest
+        update_cache: yes
+      become: yes
+      when: pip_exist.rc != 0
+    - name: "UBUNTU - Install system version of `pip3` if no `pip3` installed"
+      apt:
+        name: python3-pip
+        state: latest
+        update_cache: yes
+      become: yes
+      when: pip3_exist.rc != 0
+  when: ansible_os_family == "Debian"
+  environment:
+    PATH: "{{ PATH_WITH_PIP_BIN }}"
+
+
+- name: "Install `pip` & `pip3` (pypa versions)"
+  # To update `pip3` the correct command is `pip3 install -U --user pip`
+  # NOT: `pip install -U --user pip3` --> `pip3` doesn't exist
+  pip:
+    name: pip
+    executable: "{{ item }}"
+    state: latest
+    extra_args: --user
+  with_items:
+    - pip
+    - pip3
+  become: no
+  environment:
+    PATH: "{{ PATH_WITH_PIP_BIN }}"
+
+- name: "UBUNTU - Remove system `pip` & `pip3` (keep only pypa version)"
+  apt:
+    name: "{{ item }}"
+    state: absent
+  with_items:
+    - python-pip
+    - python3-pip
+  become: yes
+  when: ansible_os_family == "Debian"
+
+- name: "Install PipEnv"
+  block:
+    - name: "Clean up previous virtualenv setup for Python 2"
+      pip:
+        name: "{{ item }}"
+        executable: pip
+        state: absent
+      with_items:
+        - virtualenv
+        - virtualenv-clone
+        - virtualenvwrapper
+
+    - name: "Clean up previous virtualenv setup for Python 3"
+      pip:
+        name: "{{ item }}"
+        executable: pip3
+        state: absent
+      with_items:
+        - virtualenv
+        - virtualenv-clone
+        - virtualenvwrapper
+
+    - name: "Install 'pipenv' with 'pip3'"
+      pip:
+        name: pipenv
+        executable: pip3
+        state: latest
+        extra_args: --user
+
+  become: no
+  environment:
+    PATH: "{{ PATH_WITH_PIP_BIN }}"
+
+- name: "Display Warning Message!"
+  debug:
+    msg:
+      - "/!\\ WARNING"
+      - "/!\\"
+      - "/!\\"
+      - "/!\\"
+      - "/!\\ FOR UBUNTU USERS:"
+      - "/!\\ `pip`, `pip3` and `pipenv` are now be installed in `~/.local/bin`"
+      - "/!\\ --> Make sure `~/.local/bin` is in your `PATH`"
+      - "/!\\"
+      - "/!\\ Also `pip`, `pip3` and `pipenv` are installed FOR THE CURRENT USER ONLY !!"
+      - "/!\\"
+      - "/!\\ To install `pip`, `pip3` and `pipenv` for another user, simply run this role"
+      - "/!\\ with another user."
+      - "/!\\"
+      - "/!\\"
+      - "/!\\"
+      - "/!\\ FOR MAC OSX USERS:"
+      - "/!\\ `pipenv` is now installed in:"
+      - "/!\\     `~/Library/Python/VERSION/bin`"
+      - "/!\\     -> VERSION being the python 3 version"
+      - "/!\\        VERSION={{ PYTHON3_VERSION }} at the time of writing"
+      - "/!\\"
+      - "/!\\ --> Make sure ~/Library/Python/VERSION/bin` is in your `PATH`"
+      - "/!\\"
+      - "/!\\ Also `pipenv` is installed FOR THE CURRENT USER ONLY !!"
+      - "/!\\"
+      - "/!\\ To install `pipenv` for another user:"
+      - "/!\\     pip3 install --user pipenv"
+      - "/!\\     -> Run w/ other user account"
