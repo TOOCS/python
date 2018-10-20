@@ -4,16 +4,6 @@
       - python_versions != ""
     msg: "'python_versions' must be passed as argument!!"
 
-- name: "Remove homebrew `python` installations on MAC OSX"
-  homebrew:
-    name: "{{ item }}"
-    state: absent
-  with_items:
-    - python
-    - "python@2"
-    - "python@3"
-  when: ansible_os_family == "Darwin"
-
 - name: "Install `pyenv`"
   block:
     - name: "Install `pyenv` - Install requirements - UBUNTU"

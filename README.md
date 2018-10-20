@@ -5,7 +5,6 @@
 * Uses `pyenv` to install setup your `python` work environment.
 * `pyenv` support multiple paralel versions of `python`, the exact list of `python` versions installed by this role, as well how they are prioritized, is entirely customizable.
 * Finally, for each installed version of `python`, `pipenv` is installed to manage the virtual enviroments
-* On MacOSX it uninstalls versions of `python` previously installed via `homebrew`.
 
 ## Requirements
 This role is only working on MacOSX & Ubuntu/Debian.
