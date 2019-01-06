@@ -1,10 +1,18 @@
-[![Build Status](https://travis-ci.org/FlorianKempenich/ansible-role-python-virtualenv.svg?branch=master)](https://travis-ci.org/FlorianKempenich/ansible-role-python-virtualenv) [![Ansible Role](https://img.shields.io/ansible/role/23205.svg)](https://galaxy.ansible.com/FlorianKempenich/python-virtualenv)
+[![Build Status](https://travis-ci.org/FlorianKempenich/TOOCS-python.svg?branch=master)](https://travis-ci.org/FlorianKempenich/TOOCS-python) [![Ansible Role](https://img.shields.io/ansible/role/23205.svg)](https://galaxy.ansible.com/FlorianKempenich/toocs_python)
 
-# Ansible role: `python-virtualenv`
+
+# TOOCS / Ansible Role: `toocs_python`
+> #### /!\ This role has been renamed - Old name: `python-virtualenv` /!\
 
 * Uses `pyenv` to install setup your `python` work environment.
 * `pyenv` support multiple paralel versions of `python`, the exact list of `python` versions installed by this role, as well how they are prioritized, is entirely customizable.
 * Finally, for each installed version of `python`, `pipenv` is installed to manage the virtual enviroments
+
+> ### TOOCS?
+> TOOCS - The Opinionated One-Click Setups are a set of tools / ansible roles designed to setup a system in one click. They are a simple, reliable, way to setup a given tool. You can use them as is, or, inspecting their code, as a tutorial to follow step by step.
+>
+> They are, as their name suggests, opinionated: while they guarantee to setup the given tool in one click, they do **not** guarantee consistency in _how_ they achieve it, new releases might introduce breaking changes.  
+> Read the code and make sure you understand what's happening!
 
 ## Requirements
 This role is only working on MacOSX & Ubuntu/Debian.
@@ -42,7 +50,7 @@ Learn more about it: [Pyenv Issue #184 - Wrong Python inside of 'pipenv shell'](
 - hosts: sandbox
   tasks:
     - include_role:
-        name: FlorianKempenich.python-virtualenv
+        name: FlorianKempenich.toocs_python
       vars:
         python_versions:
           - 3.7.0
