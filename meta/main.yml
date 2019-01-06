@@ -1,7 +1,7 @@
 galaxy_info:
   role_name: toocs_python
   author: Florian Kempenich
-  description: Install Python and Python3, along with PipEnv to manage virtualenvs
+  description: Install Python and Python3 with pyenv, along with PipEnv to manage virtualenvs
 
   license: MIT
 

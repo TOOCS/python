@@ -30,16 +30,27 @@
         - liblzma-dev
       when: ansible_os_family == "Debian"
 
-    - name: "Install `pyenv` - Install requirements - MAC OSX"
+    - name: "Install `pyenv` - Install requirements 1/2 - MAC OSX"
       homebrew:
         name: "{{ item }}"
         state: latest
         update_homebrew: yes
       become: no
       with_items:
+        - openssl
         - readline
+        - sqlite3
         - xz
+        - zlib
+        - pkg-config # Thx: https://github.com/pyenv/pyenv/issues/1184#issuecomment-433683530
       when: ansible_os_family == "Darwin"
+
+    - name: "Install `pyenv` - Install requirements 2/2 - MAC OSX"
+      # Install the additional SDK headers when Mojave or higher (10.14+)
+      # See: https://github.com/pyenv/pyenv/wiki#suggested-build-environment
+      command: installer -pkg /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg -target /
+      become: yes
+      when: ansible_os_family == "Darwin" and ansible_distribution_version >= "10.14"
 
     - name: "Install `pyenv` - Set `pyenv_root` as fact"
       set_fact:
@@ -58,11 +69,11 @@
     PYENV_ROOT: "{{ pyenv_root }}"
   block:
     - name: "Install all `python` versions - Install `python`"
-      shell: "eval \"$(pyenv init -)\" && pyenv install --skip-existing {{ item }}"
+      shell: ". /etc/profile && eval \"$(pyenv init -)\" && pyenv install --skip-existing {{ item }}"
       with_items: "{{ python_versions }}"
 
     - name: "Install all `python` versions - Set `global` versions with `pyenv`"
-      shell: "eval \"$(pyenv init -)\" && pyenv global {{ python_versions|join(' ') }}"
+      shell: ". /etc/profile && eval \"$(pyenv init -)\" && pyenv global {{ python_versions|join(' ') }}"
 
 
 - name: "Install `pipenv` for all `python` versions"
