@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/TOOCS/python.svg?branch=master)](https://travis-ci.org/TOOCS/python) [![Ansible Role](https://img.shields.io/ansible/role/36156.svg)](https://galaxy.ansible.com/TOOCS/python)
+[![Build Status](https://travis-ci.org/TOOCS/python.svg?branch=master)](https://travis-ci.org/TOOCS/python) [![Ansible Role](https://img.shields.io/ansible/role/36196.svg)](https://galaxy.ansible.com/TOOCS/python)
 
 
 # TOOCS / Ansible Role: `TOOCS.python`
