@@ -1,8 +1,8 @@
-[![Build Status](https://travis-ci.org/TOOCS/python.svg?branch=master)](https://travis-ci.org/TOOCS/python) [![Ansible Role](https://img.shields.io/ansible/role/36156.svg)](https://galaxy.ansible.com/FlorianKempenich/toocs_python)
+[![Build Status](https://travis-ci.org/TOOCS/python.svg?branch=master)](https://travis-ci.org/TOOCS/python) [![Ansible Role](https://img.shields.io/ansible/role/36156.svg)](https://galaxy.ansible.com/TOOCS/python)
 
 
-# TOOCS / Ansible Role: `FlorianKempenich.toocs_python`
-> #### /!\ This role has been renamed - Old name: `python-virtualenv` /!\
+# TOOCS / Ansible Role: `TOOCS.python`
+> #### /!\ This role has been renamed - Old name: `FlorianKempenich.python-virtualenv` /!\
 
 * Uses `pyenv` to install setup your `python` work environment.
 * `pyenv` support multiple paralel versions of `python`, the exact list of `python` versions installed by this role, as well how they are prioritized, is entirely customizable.
@@ -50,7 +50,7 @@ Learn more about it: [Pyenv Issue #184 - Wrong Python inside of 'pipenv shell'](
 - hosts: sandbox
   tasks:
     - include_role:
-        name: FlorianKempenich.toocs_python
+        name: TOOCS.python
       vars:
         python_versions:
           - 3.7.0
