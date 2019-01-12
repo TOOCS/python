@@ -1,6 +1,6 @@
 ---
 galaxy_info:
-  role_name: toocs_python
+  role_name: python
   author: Florian Kempenich
   description: Install multiple versions of Python with some optional global packages
 
