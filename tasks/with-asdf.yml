@@ -25,7 +25,7 @@
   args:
     executable: /bin/bash
   register: install_package_cmd
-  changed_when: "install_package_cmd.stdout_lines[-1] is match('Successfully installed .*{{ package }}.*')"
+  changed_when: "install_package_cmd.stdout_lines[-1] is match('Successfully installed .*' + package + '.*')"
   loop: "{{ global_pip_packages }}"
   loop_control:
     loop_var: package
