@@ -1,0 +1,36 @@
+---
+# Python has already been installed by the 'TOOCS.asdf' role dependency.
+# See meta/main.yml
+
+- name: "Install `pipenv` for all `python` versions"
+  shell: |
+    . {{ ansible_env.HOME }}/.asdf/asdf.sh
+    touch .tool-versions
+    mv .tool-versions .tool-versions.bak
+    asdf local python {{ version }}
+
+    pip install pipenv
+
+    mv .tool-versions.bak .tool-versions
+  args:
+    executable: /bin/bash
+  register: install_pipenv_cmd
+  changed_when: "install_pipenv_cmd.stdout_lines[-1] is match('Successfully installed .*pipenv.*')"
+  loop: "{{ python_versions }}"
+  loop_control:
+    loop_var: version
+
+- name: "Install `global_pip_packages`"
+  shell: ". {{ ansible_env.HOME }}/.asdf/asdf.sh && pip install {{ package }}"
+  args:
+    executable: /bin/bash
+  register: install_package_cmd
+  changed_when: "install_package_cmd.stdout_lines[-1] is match('Successfully installed .*{{ package }}.*')"
+  loop: "{{ global_pip_packages }}"
+  loop_control:
+    loop_var: package
+
+- name: "Reshim after installing packages"
+  shell: ". {{ ansible_env.HOME }}/.asdf/asdf.sh && asdf reshim python"
+  args:
+    executable: /bin/bash

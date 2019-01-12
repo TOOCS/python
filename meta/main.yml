@@ -1,7 +1,8 @@
+---
 galaxy_info:
   role_name: toocs_python
   author: Florian Kempenich
-  description: Install Python and Python3 with pyenv, along with PipEnv to manage virtualenvs
+  description: Install multiple versions of Python with some optional global packages
 
   license: MIT
 
@@ -23,4 +24,10 @@ galaxy_info:
     - pyenv
     - virtualenv
 
-dependencies: []
+dependencies:
+  - role: TOOCS.asdf
+    vars:
+      skip_shell_setup: "{{ asdf_skip_shell_setup }}"
+      languages_to_install:
+        - python: "{{ python_versions }}"
+    when: installation_method == "asdf"

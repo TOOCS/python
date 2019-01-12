@@ -1,3 +1,4 @@
+---
 - name: "Set Python 3 version as fact"
   set_fact:
     PYTHON3_VERSION: "3.7"
